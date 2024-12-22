@@ -1,0 +1,14 @@
+: is =
+= is ==
+till is while
+if is if
+} is {
+{ is }
+
+
+x : 2
+
+if x = 2
+{
+    x : x + 1
+}
