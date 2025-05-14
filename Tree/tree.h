@@ -1,10 +1,12 @@
 #ifndef TREE_H
 #define TREE_H
 
-#define $$$
+#define $$$ 
 
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "../MyAssert/myassert.h"
 
 enum Side
 {

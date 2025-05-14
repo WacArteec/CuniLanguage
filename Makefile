@@ -5,8 +5,11 @@ FLAGS = -c
 all: hello
 	language
 
-hello: Objectives/main.o Objectives/tree.o Objectives/lexical.o Objectives/syntactic.o Objectives/reader.o Objectives/translator.o
-	$(CC) Objectives/main.o Objectives/tree.o Objectives/lexical.o Objectives/syntactic.o Objectives/reader.o Objectives/translator.o -o language
+hello: Objectives/main.o  Objectives/myassert.o Objectives/tree.o Objectives/lexical.o Objectives/syntactic.o Objectives/reader.o Objectives/translator.o
+	$(CC) Objectives/main.o  Objectives/myassert.o Objectives/tree.o Objectives/lexical.o Objectives/syntactic.o Objectives/reader.o Objectives/translator.o -o language
+
+Objectives/myassert.o: myassert/myassert.cpp myassert/myassert.h
+	$(CC) $(FLAGS) myassert/myassert.cpp -o Objectives/myassert.o
 
 Objectives/tree.o: tree/tree.cpp tree/tree.h
 	$(CC) $(FLAGS) tree/tree.cpp -o Objectives/tree.o

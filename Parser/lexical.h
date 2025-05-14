@@ -1,7 +1,12 @@
 #ifndef LEXICAL_H
 #define LEXICAL_H
 
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+
 #include "../tree/tree.h"
+#include "../MyAssert/myassert.h"
 
 union LexData
 {

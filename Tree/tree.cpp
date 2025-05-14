@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-
 #include "tree.h"
 
 const char* blue = "#87cefa";
@@ -17,7 +13,7 @@ int DotNode(FILE* dot_file, struct Node* node, Side agree, int parent_num);
 
 void Ctor(struct Tree* tree)
 {
-    assert(tree);
+    MyAssert(tree, ARG_IN_FUNC);
 
     tree->root = (Node*) calloc(1, sizeof(Node));
 
@@ -31,7 +27,7 @@ void Ctor(struct Tree* tree)
 Node* CreateFict(struct Node* left, struct Node* right)
 {
     struct Node* node = (Node*) calloc(1, sizeof(Node));
-    assert(node);
+    MyAssert(node, ALLOC);
 
     node->type = DEF_TYPE;
     node->data = {};
@@ -45,7 +41,7 @@ Node* CreateFict(struct Node* left, struct Node* right)
 Node* CreateNum(float value)
 {
     struct Node* node = (Node*) calloc(1, sizeof(Node));
-    assert(node);
+    MyAssert(node, ALLOC);
 
     node->type = NUM;
     node->data.value = value;
@@ -56,7 +52,7 @@ Node* CreateNum(float value)
 Node* CreateVar(struct Node* left, struct Node* right, unsigned int var)
 {
     struct Node* node = (Node*) calloc(1, sizeof(Node));
-    assert(node);
+    MyAssert(node, ALLOC);
 
     node->type = VAR;
     node->data.var = var;
@@ -71,7 +67,7 @@ Node* CreateVar(struct Node* left, struct Node* right, unsigned int var)
 Node* CreateOper(struct Node* left, struct Node* right, Operations oper)
 {
     struct Node* node = (Node*) calloc(1, sizeof(Node));
-    assert(node);
+    MyAssert(node, ALLOC);
 
     node->type = OPER;
     node->data.oper = oper;
@@ -84,10 +80,10 @@ Node* CreateOper(struct Node* left, struct Node* right, Operations oper)
 
 void SaveTree(struct Tree* tree)
 {
-    assert(tree);
+    MyAssert(tree, ARG_IN_FUNC);
 
     FILE* database = fopen("DataBase.txt", "wb");
-    assert(database);
+    MyAssert(database, FILES);
 
     PrintNode(database, tree->root);
 
@@ -102,7 +98,7 @@ void SaveTree(struct Tree* tree)
 
 void PrintNode(FILE* stream, struct Node* node)
 {
-    assert(stream);
+    MyAssert(stream, ARG_IN_FUNC);
 
     if(node != NULL)
     {
@@ -145,7 +141,7 @@ Node* DeleteNode(struct Node* node)
 
 void Dtor(struct Tree* tree)
 {
-    assert(tree);
+    MyAssert(tree, ARG_IN_FUNC);
 
     tree->size = 0;
 
@@ -154,11 +150,11 @@ void Dtor(struct Tree* tree)
 
 void GraphDump(struct Tree* tree)
 {
-    assert(tree);
+    MyAssert(tree, ARG_IN_FUNC);
 
 $$$ printf("\n\n%d\n\n", __LINE__);
     FILE* dot_file = fopen("Tree.dot", "wb");
-    assert(dot_file);
+    MyAssert(dot_file, FILES);
 
     fprintf(dot_file, "digraph G{\n\trankdir=HR;\n");
 
@@ -179,6 +175,8 @@ $$$ printf("\n\n%d\n\n", __LINE__);
 
 int DotNode(FILE* dot_file, struct Node* node, Side side, int parent_num)
 {
+    MyAssert(dot_file, ARG_IN_FUNC);
+
     const char* color = "#000000";
     int current_num = parent_num + 1;
 
