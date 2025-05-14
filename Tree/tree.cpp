@@ -16,6 +16,7 @@ void Ctor(struct Tree* tree)
     MyAssert(tree, ARG_IN_FUNC);
 
     tree->root = (Node*) calloc(1, sizeof(Node));
+    MyAssert(tree->root, ALLOC);
 
     tree->root->type = DEF_TYPE;
     tree->root->data = {};
@@ -108,10 +109,13 @@ void PrintNode(FILE* stream, struct Node* node)
             fprintf(stream, " %d ", node->data.oper);
 
         else if(node->type == VAR)
-            fprintf(stream, " %c ", node->data.var);
+            fprintf(stream, " %u ", node->data.var);
         
-        else if(node->type == OPER)
+        else if(node->type == NUM)
             fprintf(stream, " %g ", node->data.value);
+
+        else if(node->type == SORT)
+            fprintf(stream, " %d ", node->data.sort);
 
         PrintNode(stream, node->left);
         PrintNode(stream, node->right);
@@ -132,7 +136,7 @@ Node* DeleteNode(struct Node* node)
         return NULL;
 
     node->right = DeleteNode(node->right);
-    node->right = DeleteNode(node->left);
+    node->left = DeleteNode(node->left);
 
     free(node);
 

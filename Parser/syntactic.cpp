@@ -100,28 +100,40 @@ Node *GetIfTill(struct Token *tokens)
     
     Node *new_node = NULL;
 
-    if (tokens[POS].type == OPER && (tokens[POS].data.oper == IF || tokens[POS].data.oper == TILL))
+    if (tokens[POS].type == OPER && (tokens[POS].data.oper == IF ||
+                                     tokens[POS].data.oper == TILL))
     {
         int op = tokens[POS].data.oper;
         POS += 1;
 
-        Node *nodeleft = CreateFict(GetEqual(tokens), GetBody(tokens));
-        Node *noderight = GetElse(tokens);
+        //Node *nodeleft = CreateFict(GetEqual(tokens), GetBody(tokens));
+        //Node *noderight = GetElse(tokens);
 
         if (op == IF)
         {
-            Node *nodeleft = CreateFict(new_node, GetBody(tokens));
-            Node *noderight = GetElse(tokens);
+            Node *condition   = GetEqual(tokens);
+            Node *body        = GetBody(tokens);
+            Node *else_branch = GetElse(tokens);
 
-            new_node = CreateOper(nodeleft, noderight, IF);
+            new_node = CreateOper(CreateFict(condition, body), else_branch, IF);
+
+            //Node *nodeleft = CreateFict(new_node, GetBody(tokens));
+            //Node *noderight = GetElse(tokens);
+
+            //new_node = CreateOper(nodeleft, noderight, IF);
         }
 
         else
         {
-            Node *nodeleft = new_node;
-            Node *noderight = GetBody(tokens);
+            Node *condition = GetEqual(tokens);
+            Node *loop_body = GetBody(tokens);
 
-            new_node = CreateOper(nodeleft, noderight, TILL);
+            new_node = CreateOper(condition, loop_body, TILL);
+
+            //Node *nodeleft = new_node;
+            //Node *noderight = GetBody(tokens);
+
+            //new_node = CreateOper(nodeleft, noderight, TILL);
         }
     }
 
@@ -150,7 +162,7 @@ Node *GetElse(struct Token *tokens)
         else
             noderight = GetBody(tokens);
 
-        new_node = CreateOper(nodeleft, noderight, IF);
+        new_node = CreateOper(nodeleft, noderight, ELSE);
     }
 
     else
@@ -288,10 +300,9 @@ Node *GetLog(struct Token *tokens)
     {
         POS += 1;
 
-        Node *node_left = new_node;
         Node *noderight = GetDeg(tokens);
 
-        return CreateOper(node_left, noderight, LOG);
+        new_node = CreateOper(new_node, noderight, LOG);
     }
     return new_node;
 }
@@ -306,10 +317,9 @@ Node *GetDeg(struct Token *tokens)
     {
         POS += 1;
 
-        Node *node_left = new_node;
         Node *noderight = GetBracket(tokens);
 
-        return CreateOper(node_left, noderight, POW);
+        new_node = CreateOper(new_node, noderight, POW);
     }
     return new_node;
 }
@@ -398,5 +408,7 @@ void SyntaxErr(struct Token *tokens)
     
     printf("error on: line = %u symbol = %u\n", tokens[POS].line, tokens[POS].symbol);
 
-    exit(1);
+    free(tokens);
+
+    exit(EXIT_FAILURE);
 }

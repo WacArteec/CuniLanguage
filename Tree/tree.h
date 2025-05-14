@@ -27,6 +27,7 @@ enum Type
     NUM,
     OPER,
     VAR,
+    SORT
 };
 
 enum Operations

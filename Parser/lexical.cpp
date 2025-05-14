@@ -57,7 +57,7 @@ Token *LexicalAnalis(char *text, struct NameTable *names)
 
                 $$$ printf("SdVig izza chisla = %u\n"), (unsigned int)(endp - text) - i - 1;
 
-                i += (unsigned int)(endp - text) - i - 1;
+                i += (unsigned int)(endp - text) - i;
             }
 
             else if (isalpha(text[i]) != 0)
@@ -67,56 +67,56 @@ Token *LexicalAnalis(char *text, struct NameTable *names)
                 {
                     tokens[count_tokens].type = OPER;
                     tokens[count_tokens].data.oper = SIN;
-                    i += 2;
+                    i += strlen("sin") - 1;
                 }
 
                 else if (strncmp(text, "log", sizeof("log") / sizeof(char) - 1) == 0)
                 {
                     tokens[count_tokens].type = OPER;
                     tokens[count_tokens].data.oper = LOG;
-                    i += 2;
+                    i += strlen("log") - 1;
                 }
 
                 else if (strncmp(text, "cos", sizeof("cos") / sizeof(char) - 1) == 0)
                 {
                     tokens[count_tokens].type = OPER;
                     tokens[count_tokens].data.oper = COS;
-                    i += 2;
+                    i += strlen("cos") - 1;
                 }
 
                 else if (strncmp(text, "tan", sizeof("tan") / sizeof(char) - 1) == 0)
                 {
                     tokens[count_tokens].type = OPER;
                     tokens[count_tokens].data.oper = TAN;
-                    i += 2;
+                    i += strlen("tan") - 1;
                 }
 
                 else if (strncmp(text, "if", sizeof("if") / sizeof(char) - 1) == 0)
                 {
                     tokens[count_tokens].type = OPER;
                     tokens[count_tokens].data.oper = IF;
-                    i += 1;
+                    i += strlen("if") - 1;
                 }
 
                 else if (strncmp(text, "else", sizeof("else") / sizeof(char) - 1) == 0)
                 {
                     tokens[count_tokens].type = OPER;
                     tokens[count_tokens].data.oper = ELSE;
-                    i += 3;
+                    i += strlen("else") - 1;
                 }
 
                 else if (strncmp(text, "till", sizeof("till") / sizeof(char) - 1) == 0)
                 {
                     tokens[count_tokens].type = OPER;
                     tokens[count_tokens].data.oper = TILL;
-                    i += 3;
+                    i += strlen("till") - 1;
                 }
 
                 else if (strncmp(text, "func", sizeof("func") / sizeof(char) - 1) == 0)
                 {
                     tokens[count_tokens].type = OPER;
                     tokens[count_tokens].data.oper = FUNC;
-                    i += 3;
+                    i += strlen("func") - 1;
                 }
 
                 else
@@ -125,7 +125,7 @@ Token *LexicalAnalis(char *text, struct NameTable *names)
 
                     if (names->size == CUR_VAR + 1)
                     {
-                        names->vars = (VarTable *)realloc(names->vars, 2 * names->size * sizeof(NameTable));
+                        names->vars = (VarTable *)realloc(names->vars, 2 * names->size * sizeof(VarTable));
                         MyAssert(names->vars, ALLOC);
                     }
 
@@ -269,12 +269,6 @@ Token *LexicalAnalis(char *text, struct NameTable *names)
                 tokens[count_tokens].data.oper = POW;
             }
 
-            else if (text[i] == ':')
-            {
-                tokens[count_tokens].type = OPER;
-                tokens[count_tokens].data.oper = INIT;
-            }
-
             else if (text[i] == '}')
             {
                 scope += 1;
@@ -349,7 +343,18 @@ unsigned int SymbolsCounter(char *str)
 
 void LexicErr(unsigned int line, unsigned int symbol)
 {
-    printf("Lexical error on: line = %u, symbol = %u\n", line, symbol);
+    fprintf(stderr, "Lexical error on: line = %u, symbol = %u\n", line, symbol);
 
-    exit(1);
+    exit(EXIT_FAILURE);
+}
+
+void NameTableDtor(NameTable *names)
+{
+    for (size_t i = 0; i < names->size; i++)
+        free(names->vars[i].name);
+
+    free(names->vars);
+    names->vars = NULL;
+
+    names->size = 0;
 }
