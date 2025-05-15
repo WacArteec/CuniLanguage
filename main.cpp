@@ -4,7 +4,7 @@
 #include "tree/tree.h"
 #include "Parser/lexical.h"
 #include "Parser/syntactic.h"
-#include "Translator/translator.h"
+#include "TranslatorNasm/translatorNasm.h"
 
 
 int main()
@@ -20,7 +20,7 @@ int main()
 
     FILE* Asmer = fopen("", "r");
 
-    Translator(tree.root, &names, Asmer);
+    //Translator(tree.root, &names, Asmer);
 
     return 0;
 }

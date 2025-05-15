@@ -38,6 +38,7 @@ Node *Parser(char *text, struct Tree *tree, struct NameTable *names)
 
 Node *GetStrEnd(struct Token *tokens) // самая главная, определяет строку
 {
+    $$$ printf("GetStrEnd\n"); $$$
     MyAssert(tokens, ARG_IN_FUNC);
     
     Node *new_node = GetFunc(tokens);
@@ -57,16 +58,18 @@ Node *GetStrEnd(struct Token *tokens) // самая главная, опреде
 
 Node *GetFunc(struct Token *tokens)
 {
+    $$$ printf("GetFunc\n"); $$$
     MyAssert(tokens, ARG_IN_FUNC);
 
     Node *new_node = NULL;
 
     if (tokens[POS].type == OPER && tokens[POS].data.sort == FUNC)
     {
+    $$$ printf("GetFunc\n"); $$$
+        POS += 1;
         new_node = GetNumVar(tokens);
 
         int op = tokens[POS].data.oper;
-        POS += 1;
 
         Node *nodeleft = new_node;
         Node *noderight = GetBody(tokens);
@@ -87,6 +90,7 @@ Node *GetFunc(struct Token *tokens)
 
 void CountParam(Node *node, unsigned int *count_param)
 {
+    $$$ printf("CountParam\n"); $$$
     if (node != NULL)
     {
         *count_param += 1;
@@ -96,6 +100,7 @@ void CountParam(Node *node, unsigned int *count_param)
 
 Node *GetIfTill(struct Token *tokens)
 {
+    $$$ printf("GetIfTill\n"); $$$
     MyAssert(tokens, ARG_IN_FUNC);
     
     Node *new_node = NULL;
@@ -145,6 +150,7 @@ Node *GetIfTill(struct Token *tokens)
 
 Node *GetElse(struct Token *tokens)
 {
+    $$$ printf("GetElse\n"); $$$
     MyAssert(tokens, ARG_IN_FUNC);
     
     Node *new_node = NULL;
@@ -173,6 +179,7 @@ Node *GetElse(struct Token *tokens)
 
 Node *GetEqual(struct Token *tokens)
 {
+    $$$ printf("GetEqual\n"); $$$
     MyAssert(tokens, ARG_IN_FUNC);
     
     Node *new_node = GetInit(tokens);
@@ -193,6 +200,7 @@ Node *GetEqual(struct Token *tokens)
 
 Node *GetInit(struct Token *tokens)
 {
+    $$$ printf("GetInit\n"); $$$
     MyAssert(tokens, ARG_IN_FUNC);
     
     Node *new_node = GetNumVar(tokens);
@@ -212,6 +220,7 @@ Node *GetInit(struct Token *tokens)
 
 Node *GetAddSub(struct Token *tokens)
 {
+    $$$ printf("GetAddSub\n"); $$$
     MyAssert(tokens, ARG_IN_FUNC);
     
     Node *new_node = GetMulDiv(tokens);
@@ -236,6 +245,7 @@ Node *GetAddSub(struct Token *tokens)
 
 Node *GetMulDiv(struct Token *tokens)
 {
+    $$$ printf("GetMulDiv\n"); $$$
     MyAssert(tokens, ARG_IN_FUNC);
     
     Node *new_node = GetTrig(tokens);
@@ -260,6 +270,7 @@ Node *GetMulDiv(struct Token *tokens)
 
 Node *GetTrig(struct Token *tokens)
 {
+    $$$ printf("GetTrig\n"); $$$
     MyAssert(tokens, ARG_IN_FUNC);
     
     Node *new_node = NULL;
@@ -292,6 +303,7 @@ Node *GetTrig(struct Token *tokens)
 
 Node *GetLog(struct Token *tokens)
 {
+    $$$ printf("GetLog\n"); $$$
     MyAssert(tokens, ARG_IN_FUNC);
     
     Node *new_node = GetDeg(tokens);
@@ -309,6 +321,7 @@ Node *GetLog(struct Token *tokens)
 
 Node *GetDeg(struct Token *tokens)
 {
+    $$$ printf("GetDeg\n"); $$$
     MyAssert(tokens, ARG_IN_FUNC);
     
     Node *new_node = GetBracket(tokens);
@@ -326,6 +339,7 @@ Node *GetDeg(struct Token *tokens)
 
 Node *GetBracket(struct Token *tokens)
 {
+    $$$ printf("GetBracket\n"); $$$
     MyAssert(tokens, ARG_IN_FUNC);
     
     if (tokens[POS].type == OPER && tokens[POS].data.oper == OP_BR)
@@ -347,6 +361,7 @@ Node *GetBracket(struct Token *tokens)
 
 Node *GetNumVar(struct Token *tokens)
 {
+    $$$ printf("GetNumVar\n"); $$$
     MyAssert(tokens, ARG_IN_FUNC);
     
     if (tokens[POS].type == VAR)
@@ -384,9 +399,11 @@ Node *GetNumVar(struct Token *tokens)
 Node *GetBody(struct Token *tokens) // самая неважная, юзается только после if, till, func
 {
     MyAssert(tokens, ARG_IN_FUNC);
-    
+    $$$ printf("GetBody %d\n", tokens[POS].data.oper); $$$
+
     if (tokens[POS].type == OPER && tokens[POS].data.oper == OP_BODY)
     {
+    $$$ printf("GetBody\n"); $$$
         POS += 1;
 
         Node *node = GetStrEnd(tokens);

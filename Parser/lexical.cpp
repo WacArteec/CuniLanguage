@@ -269,7 +269,7 @@ Token *LexicalAnalis(char *text, struct NameTable *names)
                 tokens[count_tokens].data.oper = POW;
             }
 
-            else if (text[i] == '}')
+            else if (text[i] == '{')
             {
                 scope += 1;
 
@@ -277,7 +277,7 @@ Token *LexicalAnalis(char *text, struct NameTable *names)
                 tokens[count_tokens].data.oper = OP_BODY;
             }
 
-            else if (text[i] == '{')
+            else if (text[i] == '}')
             {
                 scope += 1;
 
@@ -303,6 +303,13 @@ Token *LexicalAnalis(char *text, struct NameTable *names)
     MyAssert(names->vars, ALLOC);
 
     $$$ printf("count_tokens = %u\n", count_tokens);
+
+    for (size_t i = 0; i < count_tokens; i++)
+    {
+        printf("(%lu %d %d) ", i, tokens[i].type, tokens[i].data.oper);
+    }
+    
+
     return tokens;
 }
 

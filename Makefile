@@ -5,8 +5,8 @@ FLAGS = -c
 all: hello
 	language
 
-hello: Objectives/main.o  Objectives/myassert.o Objectives/tree.o Objectives/lexical.o Objectives/syntactic.o Objectives/reader.o Objectives/translator.o
-	$(CC) Objectives/main.o  Objectives/myassert.o Objectives/tree.o Objectives/lexical.o Objectives/syntactic.o Objectives/reader.o Objectives/translator.o -o language
+hello: Objectives/main.o  Objectives/myassert.o Objectives/tree.o Objectives/lexical.o Objectives/syntactic.o Objectives/reader.o Objectives/translatorNasm.o
+	$(CC) Objectives/main.o  Objectives/myassert.o Objectives/tree.o Objectives/lexical.o Objectives/syntactic.o Objectives/reader.o Objectives/translatorNasm.o -o language
 
 Objectives/myassert.o: myassert/myassert.cpp myassert/myassert.h
 	$(CC) $(FLAGS) myassert/myassert.cpp -o Objectives/myassert.o
@@ -23,8 +23,8 @@ Objectives/lexical.o: Parser/lexical.cpp Parser/lexical.h
 Objectives/reader.o: reader/reader.cpp reader/reader.h
 	$(CC) $(FLAGS) reader/reader.cpp -o Objectives/reader.o
 
-Objectives/translator.o: Translator/translator.cpp Translator/translator.h
-	$(CC) $(FLAGS) Translator/translator.cpp -o Objectives/translator.o
+Objectives/translatorNasm.o: TranslatorNasm/translatorNasm.cpp TranslatorNasm/translatorNasm.h
+	$(CC) $(FLAGS) TranslatorNasm/translatorNasm.cpp -o Objectives/translatorNasm.o
 
 Objectives/main.o: main.cpp
 	$(CC) $(FLAGS) main.cpp -o Objectives/main.o

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "translator.h"
+#include "translatorMyCPU.h"
 #include "../Parser/lexical.h"
 
 const char* addict   = "add\n";
