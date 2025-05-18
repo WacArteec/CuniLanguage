@@ -18,9 +18,16 @@ int main()
 
     tree.root = Parser(program_text, &tree, &names);
 
-    FILE* Asmer = fopen("", "r");
+    FILE* Asmer = fopen("program.asm", "w");
+    MyAssert(Asmer, FILES);
 
-    //Translator(tree.root, &names, Asmer);
+    TranslatorNasm(tree.root, &names, Asmer);
+    fclose(Asmer);
+
+    NameTableDtor(&names);
+
+    system("nasm -f elf64 program.asm -o program.o && ld program.o -o program");
+
 
     return 0;
 }

@@ -15,12 +15,6 @@ enum Side
     RIGHT
 };
 
-enum Sort
-{
-    VOID,
-    INT
-};
-
 enum Type
 {
     DEF_TYPE,
@@ -59,7 +53,15 @@ enum Operations
     EQBELOW,
     STR_END,
     FUNC,
+    ARGS_FUNC,
     END
+};
+
+enum Sort
+{
+    VOID,
+    IS_FUNC,
+    INT
 };
 
 struct Tree;
@@ -74,8 +76,6 @@ union Data
 
 struct Node
 {
-    const char* start_src = NULL;
-
     Type type = DEF_TYPE;
 
     Data data = {};

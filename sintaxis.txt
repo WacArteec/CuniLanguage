@@ -2,8 +2,8 @@
 = is ==
 till is while
 if is if
-} is {
-{ is }
+{ is {
+} is }
 
 
 x : 2

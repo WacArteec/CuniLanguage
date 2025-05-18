@@ -1,26 +1,24 @@
-func main 
+func main()
 {
-    x:10
-    y:20
+    x : 10
+    int y : 20
     
-    if (x > y)
+    if(x > y)
     {
-        x:11
+        x : 11
     }
 
     else
     {
-        y:21
+        y : 21
     }
 
-    z:(x+y*2)
-    log(2, z)
+    int z : (x + y * 2)
 
-    till(z>50)
+    till(z > 50)
     {
-        z:(z - 5)
-        log(2, z)
+        z : (z - 5)
     }
 
-    result: (sin(z)^2 + cos(z)^2)
+    end
 }

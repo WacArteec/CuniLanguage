@@ -12,8 +12,8 @@ union LexData
 {
     double value;
 
-    int oper;
-    int sort;
+    Operations oper;
+    Sort sort;
 
     unsigned int var;
 };
@@ -33,6 +33,8 @@ struct VarTable
     char* name = NULL;
     unsigned int order = 0;
     unsigned int scope = 0;
+    double init_value = 0.0;
+    Sort sort = VOID;
 };
 
 struct NameTable
@@ -47,5 +49,6 @@ enum Sizes
 };
 
 Token* LexicalAnalis(char* text, struct NameTable* names);
+void NameTableDtor(NameTable *names);
 
 #endif //LEXICAL_H
